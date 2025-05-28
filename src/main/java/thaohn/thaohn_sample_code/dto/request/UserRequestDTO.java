@@ -3,7 +3,7 @@ package thaohn.thaohn_sample_code.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import thaohn.thaohn_sample_code.util.PhoneNumber;
+import thaohn.thaohn_sample_code.util.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +23,15 @@ public class UserRequestDTO  implements Serializable {
     private Date dateOfBirth;
     @NotEmpty
     List<String> permissions;
+    @Pattern(regexp = "^ACTIVE|INACTIVE|NONE$", message = "status must be one in {ACTIVE, INACTIVE, NONE}")
+    @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
+    private UserStatus status;
+    @GenderSubset(anyOf ={Gender.FEMALE,Gender.MALE,Gender.OTHER} )
+    private Gender  gender;
+
+    @NotNull(message = "type not null")
+    @EnumValue(name = "type", enumClass = UserType.class)
+    private String type;
 
     public String getFirstName() {
         return firstName;
@@ -77,5 +86,29 @@ public class UserRequestDTO  implements Serializable {
 
     public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
