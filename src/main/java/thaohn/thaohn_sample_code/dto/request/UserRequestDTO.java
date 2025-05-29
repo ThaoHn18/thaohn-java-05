@@ -23,7 +23,6 @@ public class UserRequestDTO  implements Serializable {
     private Date dateOfBirth;
     @NotEmpty
     List<String> permissions;
-    @Pattern(regexp = "^ACTIVE|INACTIVE|NONE$", message = "status must be one in {ACTIVE, INACTIVE, NONE}")
     @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
     private UserStatus status;
     @GenderSubset(anyOf ={Gender.FEMALE,Gender.MALE,Gender.OTHER} )
@@ -32,6 +31,9 @@ public class UserRequestDTO  implements Serializable {
     @NotNull(message = "type not null")
     @EnumValue(name = "type", enumClass = UserType.class)
     private String type;
+    private String username;
+    private String password;
+    private List<String> addresses;
 
     public String getFirstName() {
         return firstName;
@@ -110,5 +112,29 @@ public class UserRequestDTO  implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<String> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<String> addresses) {
+        this.addresses = addresses;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
