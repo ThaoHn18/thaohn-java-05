@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,16 @@ import thaohn.thaohn_sample_code.dto.request.UserRequestDTO;
 import thaohn.thaohn_sample_code.dto.response.ResponseData;
 import thaohn.thaohn_sample_code.dto.response.ResponseError;
 import thaohn.thaohn_sample_code.dto.response.ResponseSuccess;
+import thaohn.thaohn_sample_code.service.UserService;
+
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private UserService userService;
 
 //    @Operation(summary = "", description = "create user", responses = {@ApiResponse(responseCode = "201", description = "", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, examples = @ExampleObject(name = "ex name", summary = "111", value = """
 //            {
@@ -29,15 +34,20 @@ public class UserController {
 //            """)))})
     @PostMapping("/")
     public ResponseData<?> addUser(@Valid @RequestBody UserRequestDTO userDTO) {
-//        return new ResponseData(HttpStatus.CREATED.value(), "User added successfully", 1);
-        return new ResponseError(HttpStatus.BAD_REQUEST.value(),"Cannot create user");
+        try {
+            userService.addUser(userDTO);
+            return new ResponseData(HttpStatus.CREATED.value(), "User added successfully", 1);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(),e.getMessage());
+        }
+//        return new ResponseError(HttpStatus.BAD_REQUEST.value(),"Cannot create user");
     }
 
 
     @PutMapping("/{userId}")
-    public ResponseSuccess updateUser( @PathVariable("userId") int id ,@Valid @RequestBody UserRequestDTO userDTO) {
+    public ResponseData<?> updateUser(@PathVariable("userId")  @Min(1) int id ,@Valid @RequestBody UserRequestDTO userDTO) {
         System.out.println("Request update uswerId="+id);
-        return new ResponseSuccess(HttpStatus.ACCEPTED, "User updated successfully", 1);
+        return new ResponseData<>(HttpStatus.ACCEPTED.value(), "User updated successfully", 1);
     }
 
     @PatchMapping("/{userId}")
