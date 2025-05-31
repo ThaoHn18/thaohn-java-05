@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import thaohn.thaohn_sample_code.configuration.Translator;
 import thaohn.thaohn_sample_code.dto.request.UserRequestDTO;
 import thaohn.thaohn_sample_code.dto.response.ResponseData;
 import thaohn.thaohn_sample_code.dto.response.ResponseError;
@@ -40,7 +41,7 @@ public class UserController {
     public ResponseData<?> addUser(@Valid @RequestBody UserRequestDTO userDTO) {
         try {
             userService.addUser(userDTO);
-            return new ResponseData(HttpStatus.CREATED.value(), "User added successfully", 1);
+            return new ResponseData(HttpStatus.CREATED.value(), Translator.toLocale("user.add.success"), 1);
         } catch (Exception e) {
             return new ResponseError(HttpStatus.BAD_REQUEST.value(),e.getMessage());
         }
@@ -51,12 +52,12 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseData<?> updateUser(@PathVariable("userId")  @Min(1) int id ,@Valid @RequestBody UserRequestDTO userDTO) {
         log.info("Request update uswerId= {}", userDTO.getLastName());
-        return new ResponseData<>(HttpStatus.ACCEPTED.value(), "User updated successfully", 1);
+        return new ResponseData<>(HttpStatus.ACCEPTED.value(), Translator.toLocale("user.add.success"), 1);
     }
 
     @PatchMapping("/{userId}")
     public ResponseSuccess patchUser( @PathVariable("userId") int id , @RequestParam(required = false) boolean status) {
-        return new ResponseSuccess(HttpStatus.ACCEPTED, "User cahnged successfully", 1);
+        return new ResponseSuccess(HttpStatus.ACCEPTED, Translator.toLocale("user.upd.success"), 1);
     }
 
     @DeleteMapping("/{userId}")
