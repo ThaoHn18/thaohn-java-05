@@ -6,9 +6,11 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import thaohn.thaohn_sample_code.dto.request.UserRequestDTO;
 import thaohn.thaohn_sample_code.dto.response.ResponseData;
@@ -21,6 +23,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Validated
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -46,7 +50,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseData<?> updateUser(@PathVariable("userId")  @Min(1) int id ,@Valid @RequestBody UserRequestDTO userDTO) {
-        System.out.println("Request update uswerId="+id);
+        log.info("Request update uswerId= {}", userDTO.getLastName());
         return new ResponseData<>(HttpStatus.ACCEPTED.value(), "User updated successfully", 1);
     }
 
@@ -57,14 +61,14 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public ResponseSuccess deleteUser(@Min(1) @PathVariable("userId") int id) {
-        System.out.printf("User deleted with id=%d\n", id);
+        log.info("User deleted with id={}", id);
         return new ResponseSuccess(HttpStatus.NO_CONTENT, "User deleted successfully", null);
 
     }
 
     @GetMapping("/{userId}")
     public ResponseSuccess getUser(@PathVariable("userId") int userid) {
-        System.out.printf("User found with id=%d\n", userid);
+       log.info("User found with id={}", userid);
 
         return new ResponseSuccess(HttpStatus.OK,"get user",new UserRequestDTO("thao", "java","phone","email"));
     }
