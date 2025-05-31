@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequestMapping("/user")
 @Validated
 @Slf4j
+@Tag(name = "User Controller")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -37,7 +39,9 @@ public class UserController {
 //                "data": 1
 //            }
 //            """)))})
+
     @PostMapping("/")
+    @Operation(summary = "Add user", description = "Create new user")
     public ResponseData<?> addUser(@Valid @RequestBody UserRequestDTO userDTO) {
         try {
             userService.addUser(userDTO);
@@ -47,7 +51,6 @@ public class UserController {
         }
 //        return new ResponseError(HttpStatus.BAD_REQUEST.value(),"Cannot create user");
     }
-
 
     @PutMapping("/{userId}")
     public ResponseData<?> updateUser(@PathVariable("userId")  @Min(1) int id ,@Valid @RequestBody UserRequestDTO userDTO) {
