@@ -12,5 +12,5 @@ openapi:
   service:
     api-docs : api-service
     server: http://localhost:${server.port}
-    title: Thao HN API Service
+    title: Thao HN API Service PRO
     version : 1.0
