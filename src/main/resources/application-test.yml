@@ -1,0 +1,16 @@
+
+server:
+  port: 8001
+spring:
+  application:
+    name: thaohn-java-app
+  config:
+    activate:
+      on-profile: test
+
+openapi:
+  service:
+    api-docs : api-service
+    server: http://localhost:${server.port}
+    title: Thao HN API Service
+    version : 1.0

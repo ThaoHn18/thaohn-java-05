@@ -1,0 +1,7 @@
+#server:
+#  port: 80
+spring:
+  application:
+    name: thaohn-java-app
+  profiles:
+    active: @spring.profiles.active@

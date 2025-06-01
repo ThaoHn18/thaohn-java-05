@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
+import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
 @Configuration
+@Profile("!prod")  // build tat ca moi truong loai tru product
 public class OpenApiConfig {
     @Bean
     public OpenAPI openAPI(@Value("${open.api.title}") String title,
