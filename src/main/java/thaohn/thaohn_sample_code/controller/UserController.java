@@ -44,12 +44,13 @@ public class UserController {
     @Operation(summary = "Add user", description = "Create new user")
     public ResponseData<?> addUser(@Valid @RequestBody UserRequestDTO userDTO) {
         try {
-            userService.addUser(userDTO);
-            return new ResponseData(HttpStatus.CREATED.value(), Translator.toLocale("user.add.success"), 1);
+            long userId=userService.saveUser(userDTO);
+            return new ResponseData(HttpStatus.CREATED.value(), Translator.toLocale("user.add.success"), userId);
         } catch (Exception e) {
+            log.error("errorMessage",e.getMessage(), e.getCause());
             return new ResponseError(HttpStatus.BAD_REQUEST.value(),e.getMessage());
         }
-//        return new ResponseError(HttpStatus.BAD_REQUEST.value(),"Cannot create user");
+
     }
 
     @PutMapping("/{userId}")

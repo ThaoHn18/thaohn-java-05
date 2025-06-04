@@ -1,12 +1,23 @@
 
 server:
-  port: 8000
+  port: 8080
 spring:
   application:
     name: thaohn-java-app
   config:
     activate:
       on-profile: dev
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/thao_java}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:12345678}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 openapi:
   service:
